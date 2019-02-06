@@ -67,17 +67,16 @@ void setup()
   pixels.begin(); // This initializes the NeoPixel library.
 }
 
-void doLedAnimation()
+void doLedAnimation(uint32_t color1, uint32_t color2)
 {
-    // For a set of NeoPixels the first NeoPixel is 0, second is 1, all the way up to the count of pixels minus one.
-
-  for(int i=0;i<NUMPIXELS-LARSON_WIDTH;i++){
+  for(int i=0;i<NUMPIXELS-LARSON_WIDTH;++i)
+  {
 
     // pixels.Color takes RGB values, from 0,0,0 up to 255,255,255
-    if (i>0)
-      pixels.setPixelColor(i-1, pixels.Color(20,50,20)); // Moderately bright green color.
-    for (int w=0;w<LARSON_WIDTH;w++){
-      pixels.setPixelColor(i+w, pixels.Color(150,0,0)); // Moderately bright green color.
+    if (i!=0)
+      pixels.setPixelColor(i-1, color1); // set pixel to color1.
+    for (int w=0;w<LARSON_WIDTH;++w){
+      pixels.setPixelColor(i+w, color2); // set pixel to color2.
     }
 
     pixels.show(); // This sends the updated pixel color to the hardware.
@@ -85,67 +84,14 @@ void doLedAnimation()
     delay(delayval); // Delay for a period of time (in milliseconds).
 
   }
-  for(int i=NUMPIXELS-LARSON_WIDTH;i>=0;i--){
+  for(int i=NUMPIXELS-LARSON_WIDTH;i>=0;--i)
+  {
     // pixels.Color takes RGB values, from 0,0,0 up to 255,255,255
-    for (int w=0;w<LARSON_WIDTH;w++){
-      pixels.setPixelColor(i+w, pixels.Color(150,0,0)); // Moderately bright green color.
+    for (int w=0;w<LARSON_WIDTH;++w){
+      pixels.setPixelColor(i+w, color2); // set pixel to color2.
     }
-    if (i>0)
-      pixels.setPixelColor(i+LARSON_WIDTH, pixels.Color(20,50,20)); // Moderately bright green color.
-
-    pixels.show(); // This sends the updated pixel color to the hardware.
-
-    delay(delayval); // Delay for a period of time (in milliseconds).
-
-  }
-    for(int i=0;i<NUMPIXELS-LARSON_WIDTH;i++){
-
-    // pixels.Color takes RGB values, from 0,0,0 up to 255,255,255
-    if (i>0)
-      pixels.setPixelColor(i-1, pixels.Color(0,50,50)); // Moderately bright green color.
-    for (int w=0;w<LARSON_WIDTH;w++){
-      pixels.setPixelColor(i+w, pixels.Color(0,150,0)); // Moderately bright green color.
-    }
-
-    pixels.show(); // This sends the updated pixel color to the hardware.
-
-    delay(delayval); // Delay for a period of time (in milliseconds).
-
-  }
-  for(int i=NUMPIXELS-LARSON_WIDTH;i>=0;i--){
-    // pixels.Color takes RGB values, from 0,0,0 up to 255,255,255
-    for (int w=0;w<LARSON_WIDTH;w++){
-      pixels.setPixelColor(i+w, pixels.Color(0,150,0)); // Moderately bright green color.
-    }
-    if (i>0)
-      pixels.setPixelColor(i+LARSON_WIDTH, pixels.Color(0,50,50)); // Moderately bright green color.
-
-    pixels.show(); // This sends the updated pixel color to the hardware.
-
-    delay(delayval); // Delay for a period of time (in milliseconds).
-
-  }
-    for(int i=0;i<NUMPIXELS-LARSON_WIDTH;i++){
-
-    // pixels.Color takes RGB values, from 0,0,0 up to 255,255,255
-    if (i>0)
-      pixels.setPixelColor(i-1, pixels.Color(50,0,50)); // Moderately bright green color.
-    for (int w=0;w<LARSON_WIDTH;w++){
-      pixels.setPixelColor(i+w, pixels.Color(0,0,150)); // Moderately bright green color.
-    }
-
-    pixels.show(); // This sends the updated pixel color to the hardware.
-
-    delay(delayval); // Delay for a period of time (in milliseconds).
-
-  }
-  for(int i=NUMPIXELS-LARSON_WIDTH;i>=0;i--){
-    // pixels.Color takes RGB values, from 0,0,0 up to 255,255,255
-    for (int w=0;w<LARSON_WIDTH;w++){
-      pixels.setPixelColor(i+w, pixels.Color(0,0,150)); // Moderately bright green color.
-    }
-    if (i>0)
-      pixels.setPixelColor(i+LARSON_WIDTH, pixels.Color(50,0,50)); // Moderately bright green color.
+    if (i!=0)
+      pixels.setPixelColor(i+LARSON_WIDTH, color1); // set pixel to color1.
 
     pixels.show(); // This sends the updated pixel color to the hardware.
 
@@ -156,6 +102,7 @@ void doLedAnimation()
  
 void loop()
 {
-  doLedAnimation();
+  doLedAnimation(pixels.Color(20,50,20), pixels.Color(150,0,0));
+  doLedAnimation(pixels.Color(0,50,50), pixels.Color(0,150,0));
+  doLedAnimation(pixels.Color(50,0,50), pixels.Color(0,0,150));
 }
-
