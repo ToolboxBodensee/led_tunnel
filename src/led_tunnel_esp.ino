@@ -1,17 +1,30 @@
 #include <Arduino.h>
 #include <ESP8266WiFi.h>
 
+#include <EEPROM.h>
+#include <WString.h>
+
+typedef struct {
+    int initialized;                        // 0=no configuration, 1=valid configuration
+    char SSID[31];                    // SSID of WiFi
+    char password[31];                // Password of WiFi
+    int firmwareVer;
+    char version_info_url[120];
+    char version_update_url[120];
+    int debug;
+} eepromData_t;
+
 #include "ota_update.h"
+
+#define URL_Version_Info_Default "https://github.com/ToolboxBodensee/led_tunnel/tree/master/bin/httpUpdate.txt"
+#define URL_Firmware_Default "https://github.com/ToolboxBodensee/led_tunnel/tree/master/bin/httpUpdate.bin"
 
 //This is running on a nodeMCU V1.0 ESP12E
 
-#define FirmwareVer  8 // Bitte hier Version der Firmware eintragen
-#define URL_Mit_Version_Info "http://hostname/repo/esp/led_tunnel/httpUpdate.txt"
-#define URL_Mit_Firmware "http://hostname/repo/esp/led_tunnel/httpUpdate.bin"
-HTTPClient http;
+eepromData_t cfg;
+int cfgStart = 0;
 
-const char* ssid = "<ssid>";
-const char* password = "<password>";
+HTTPClient http;
 
 #include <Adafruit_NeoPixel.h>
 #ifdef __AVR__
@@ -37,15 +50,56 @@ const char* password = "<password>";
 // example for more information on possible values.
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 
-int delayval = 20; // delay for half a second
+int delayval = 20; // delay config
+
+void eraseConfig() {
+    // Reset EEPROM bytes to '0' for the length of the data structure
+    EEPROM.begin(4095);
+    for (unsigned int i = cfgStart ; i < sizeof(cfg) ; i++) {
+        EEPROM.write(i, 0);
+    }
+    delay(200);
+    EEPROM.commit();
+    EEPROM.end();
+}
+
+void saveConfig() {
+    // Save configuration from RAM into EEPROM
+    EEPROM.begin(4095);
+    EEPROM.put( cfgStart, cfg );
+    delay(200);
+    EEPROM.commit();                      // Only needed for ESP8266 to get data written
+    EEPROM.end();                         // Free RAM copy of structure
+}
+
+void loadConfig() {
+    // Loads configuration from EEPROM into RAM
+    EEPROM.begin(4095);
+    EEPROM.get( cfgStart, cfg );
+    EEPROM.end();
+}
 
 void setup()
 {
+    loadConfig();
+    if (cfg.initialized != 1)
+    {
+        //not initialized
+        cfg.initialized = 1;
+        strncpy(cfg.SSID, "<ssid>", sizeof("<ssid>"));
+        strncpy(cfg.password, "<password>", sizeof("<password>"));
+        cfg.firmwareVer = 9;
+        strncpy(cfg.version_info_url, URL_Version_Info_Default, sizeof(URL_Version_Info_Default));
+        strncpy(cfg.version_update_url, URL_Firmware_Default, sizeof(URL_Firmware_Default));
+        cfg.debug = 1;
+        saveConfig();
+    }
+
     Serial.begin(115200);
     Serial.println("");
     Serial.println("Start");
     WiFi.mode(WIFI_STA);
-    WiFi.begin(ssid, password);
+    WiFi.begin(cfg.SSID, cfg.password);
     while (WiFi.status() != WL_CONNECTED)
     {
         delay(500);
@@ -55,10 +109,10 @@ void setup()
     Serial.println("Verbunden");
 
     OTA_CONFIG ota_config = {
-        .version = FirmwareVer,
-        .check_url = URL_Mit_Version_Info,
-        .binary_url = URL_Mit_Firmware,
-        .debug = true,
+        .version = cfg.firmwareVer,
+        .check_url = cfg.version_info_url,
+        .binary_url = cfg.version_update_url,
+        .debug = cfg.debug,
     };
 
     FirmwareUpdate(ota_config);
