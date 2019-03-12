@@ -16,8 +16,8 @@ typedef struct {
 
 #include "ota_update.h"
 
-#define URL_Version_Info_Default "https://github.com/ToolboxBodensee/led_tunnel/tree/master/bin/httpUpdate.txt"
-#define URL_Firmware_Default "https://github.com/ToolboxBodensee/led_tunnel/tree/master/bin/httpUpdate.bin"
+#define URL_Version_Info_Default "https://raw.githubusercontent.com/ToolboxBodensee/led_tunnel/master/bin/httpUpdate.txt"
+#define URL_Firmware_Default "https://github.com/ToolboxBodensee/led_tunnel/blob/master/bin/httpUpdate.bin?raw=true"
 
 //This is running on a nodeMCU V1.0 ESP12E
 
