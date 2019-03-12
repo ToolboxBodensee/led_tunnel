@@ -35,6 +35,13 @@ Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ80
 eepromData_t cfg;
 HTTPClient http;
 
+void onFirmwareUpdateDone(unsigned int newVersion)
+{
+    //update was done, save new version number
+    cfg.firmwareVer = newVersion;
+    saveConfig(cfg);
+}
+
 void setup()
 {
     loadConfig(cfg);
@@ -71,7 +78,7 @@ void setup()
         .debug = (bool) cfg.debug,
     };
 
-    FirmwareUpdate(ota_config);
+    FirmwareUpdate(ota_config, &onFirmwareUpdateDone);
 
     //led stuff
     // This is for Trinket 5V 16MHz, you can remove these three lines if you are not using a Trinket

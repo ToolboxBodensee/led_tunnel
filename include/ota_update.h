@@ -8,7 +8,7 @@ struct OTA_CONFIG {
     const bool debug;
 };
 
-void FirmwareUpdate(OTA_CONFIG config)
+void FirmwareUpdate(OTA_CONFIG config, void (*onUpdateDoneCallback)(unsigned int) = NULL)
 {
     //show current version in debug
     if (config.debug)
@@ -29,17 +29,17 @@ void FirmwareUpdate(OTA_CONFIG config)
     {
         // Überprüfen der Firmwareversion des programmms aud dem Server
         HTTPClient http;
-        int FirmwareNeu = 0;
+        int firmwareVersionNew = 0;
         http.begin(config.check_url);     // Webseite aufrufen
         int httpCode = http.GET();            // Antwort des Servers einlesen
         if (httpCode == HTTP_CODE_OK)         // Wenn Antwort OK
         {
             String payload = http.getString();  // Webseite einlesen
-            FirmwareNeu = payload.toInt();      // Zahl aus Sting bilden
+            firmwareVersionNew = payload.toInt();      // Zahl aus Sting bilden
         }
         http.end();
 
-        if (FirmwareNeu > config.version)        // Firmwareversion mit aktueller vergleichen
+        if (firmwareVersionNew > config.version)        // Firmwareversion mit aktueller vergleichen
         {
             if (config.debug)
             {
@@ -51,20 +51,25 @@ void FirmwareUpdate(OTA_CONFIG config)
             switch (ret)
             {
                 case HTTP_UPDATE_OK:
-                if (config.debug)
-                {
-                    Serial.println("Update erfolgreich");
-                    Serial.println("Reset");
-                    Serial.flush();
-                }
-                delay(1);
-                ESP.reset();
-                delay(100);
-                break;
+                    if (config.debug)
+                    {
+                        Serial.println("Update erfolgreich");
+                    }
+                    //call the callback function
+                    (*onUpdateDoneCallback)(firmwareVersionNew);
+                    if (config.debug)
+                    {
+                        Serial.println("Reset");
+                        Serial.flush();
+                    }
+                    delay(1);
+                    ESP.reset();
+                    delay(100);
+                    break;
                 default:
-                if (config.debug)
-                Serial.printf("HTTP_UPDATE_FAILD Error (%d): %s", ESPhttpUpdate.getLastError(), ESPhttpUpdate.getLastErrorString().c_str());
-                break;
+                    if (config.debug)
+                    Serial.printf("HTTP_UPDATE_FAILD Error (%d): %s", ESPhttpUpdate.getLastError(), ESPhttpUpdate.getLastErrorString().c_str());
+                    break;
             }
         }
     }
