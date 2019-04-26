@@ -34,6 +34,18 @@ script:
     - mv .pioenvs/nodemcu/firmware.bin .pioenvs/nodemcu/nodemcu.bin
     - platformio run -e nodemcuv2
     - mv .pioenvs/nodemcuv2/firmware.bin .pioenvs/nodemcuv2/nodemcuv2.bin
-    - ls .pioenvs/d1_mini
-    - ls .pioenvs/nodemcu
-    - ls .pioenvs/nodemcuv2
+
+deploy:
+  provider: releases
+  api_key:
+    secure:
+    - "$GITHUB_API_KEY"
+  file:
+  - .pioenvs/d1_mini/d1_mini.bin
+  - .pioenvs/nodemcu/nodemcu.bin
+  - .pioenvs/nodemcuv2/nodemcuv2.bin
+  skip_cleanup: true
+  name: $TRAVIS_BRANCH $(date +'%Y.%m.%d %H:%M')
+  on:
+    tags: false
+    branch: master
