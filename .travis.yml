@@ -28,6 +28,9 @@ install:
     - platformio update
 
 script:
-    - platformio run
-    - cd .pioenvs/d1_mini
-    - ls -A
+    - platformio run -e d1_mini
+    - platformio run -e nodemcu
+    - platformio run -e nodemcuv2
+    - ls .pioenvs/d1_mini
+    - ls .pioenvs/nodemcu
+    - ls .pioenvs/nodemcuv2
