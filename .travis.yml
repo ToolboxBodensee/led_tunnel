@@ -36,6 +36,10 @@ script:
     - mv .pioenvs/nodemcuv2/firmware.bin .pioenvs/nodemcuv2/nodemcuv2.bin
 
 deploy:
+  provider: script
+  script:
+    - ./Travis/tag.sh
+
   provider: releases
   api_key:
     secure:
@@ -45,7 +49,7 @@ deploy:
   - .pioenvs/nodemcu/nodemcu.bin
   - .pioenvs/nodemcuv2/nodemcuv2.bin
   skip_cleanup: true
-  name: $TRAVIS_BRANCH $(date +'%Y.%m.%d %H:%M')
+  name: latest
   on:
-    tags: false
+    tags: true
     branch: master
