@@ -35,11 +35,10 @@ script:
     - platformio run -e nodemcuv2
     - mv .pioenvs/nodemcuv2/firmware.bin .pioenvs/nodemcuv2/nodemcuv2.bin
 
-deploy:
-  provider: script
-  script:
+before_deploy:
     - ./Travis/tag.sh
 
+deploy:
   provider: releases
   api_key:
     secure:
