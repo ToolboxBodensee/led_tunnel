@@ -29,8 +29,11 @@ install:
 
 script:
     - platformio run -e d1_mini
+    - mv .pioenvs/d1_mini/firmware.bin .pioenvs/d1_mini/d1_mini.bin
     - platformio run -e nodemcu
+    - mv .pioenvs/nodemcu/firmware.bin .pioenvs/nodemcu/nodemcu.bin
     - platformio run -e nodemcuv2
+    - mv .pioenvs/nodemcuv2/firmware.bin .pioenvs/nodemcuv2/nodemcuv2.bin
     - ls .pioenvs/d1_mini
     - ls .pioenvs/nodemcu
     - ls .pioenvs/nodemcuv2
