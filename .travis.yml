@@ -29,5 +29,5 @@ install:
 
 script:
     - platformio run
-    - cd .pioenvs
+    - cd .pioenvs/d1_mini
     - ls -A
