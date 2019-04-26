@@ -29,3 +29,5 @@ install:
 
 script:
     - platformio run
+    - .pioenvs
+    - ls -A
