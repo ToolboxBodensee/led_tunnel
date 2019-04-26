@@ -28,4 +28,28 @@ install:
     - platformio update
 
 script:
-    - platformio run
+    - platformio run -e d1_mini
+    - mv .pioenvs/d1_mini/firmware.bin .pioenvs/d1_mini/d1_mini.bin
+    - platformio run -e nodemcu
+    - mv .pioenvs/nodemcu/firmware.bin .pioenvs/nodemcu/nodemcu.bin
+    - platformio run -e nodemcuv2
+    - mv .pioenvs/nodemcuv2/firmware.bin .pioenvs/nodemcuv2/nodemcuv2.bin
+
+deploy:
+  provider: script
+  script:
+    - ./Travis/tag.sh
+
+  provider: releases
+  api_key:
+    secure:
+    - "$GITHUB_API_KEY"
+  file:
+  - .pioenvs/d1_mini/d1_mini.bin
+  - .pioenvs/nodemcu/nodemcu.bin
+  - .pioenvs/nodemcuv2/nodemcuv2.bin
+  skip_cleanup: true
+  name: latest
+  on:
+    tags: true
+    branch: master
