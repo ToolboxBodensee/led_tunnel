@@ -8,7 +8,7 @@ struct OTA_CONFIG {
     const bool debug;
 };
 
-void FirmwareUpdate(OTA_CONFIG config, void (*onUpdateDoneCallback)(unsigned int) = NULL)
+void FirmwareUpdate(OTA_CONFIG config, void (*onUpdateDoneCallback)(unsigned long) = NULL)
 {
     //show current version in debug
     if (config.debug)
