@@ -16,36 +16,45 @@
 
 language: python
 python:
-    - "2.7"
+  - "2.7"
 
 sudo: false
 cache:
-    directories:
-        - "~/.platformio"
+  directories:
+    - "~/.platformio"
 
 install:
-    - pip install -U platformio
-    - platformio update
+  - pip install -U platformio
+  - platformio update
 
 script:
-    - platformio run -e d1_mini
-    - mv .pioenvs/d1_mini/firmware.bin .pioenvs/d1_mini/d1_mini.bin
-    - platformio run -e nodemcu
-    - mv .pioenvs/nodemcu/firmware.bin .pioenvs/nodemcu/nodemcu.bin
-    - platformio run -e nodemcuv2
-    - mv .pioenvs/nodemcuv2/firmware.bin .pioenvs/nodemcuv2/nodemcuv2.bin
+  - platformio run -e d1_mini
+  - platformio run -e nodemcu
+  - platformio run -e nodemcuv2
+
+before_deploy:
+  - ln -s .pioenvs/d1_mini/firmware.bin d1_mini.bin
+  - ln -s .pioenvs/nodemcu/firmware.bin nodemcu.bin
+  - ln -s .pioenvs/nodemcuv2/firmware.bin nodemcuv2.bin
+  - git tag -f travis-latest
+  - git remote add gh https://${TRAVIS_REPO_SLUG%/*}:${GITHUB_API_KEY}@github.com/${TRAVIS_REPO_SLUG}.git
+  - git push -f gh travis-latest
+  - git remote remove gh
 
 deploy:
   provider: releases
   api_key:
     secure:
-    - "$GITHUB_API_KEY"
+      - "$GITHUB_API_KEY"
   file:
-  - .pioenvs/d1_mini/d1_mini.bin
-  - .pioenvs/nodemcu/nodemcu.bin
-  - .pioenvs/nodemcuv2/nodemcuv2.bin
+    - d1_mini.bin
+    - nodemcu.bin
+    - nodemcuv2.bin
   skip_cleanup: true
-  name: latest
+  name: led tunnel OTA update release
+  body: Automatic led tunnel over the air update build of $TRAVIS_BRANCH ($TRAVIS_COMMIT) built by Travis CI on $(date +'%F %T %Z').
+  prerelease: false
+  overwrite: true
+  target_commitish: $TRAVIS_COMMIT
   on:
-    tags: false
     branch: master
