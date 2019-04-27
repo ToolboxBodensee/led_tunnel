@@ -38,8 +38,7 @@ before_deploy:
   - ln -s .pioenvs/nodemcuv2/firmware.bin nodemcuv2.bin
   - curl -LJ https://github.com/ToolboxBodensee/led_tunnel/releases/download/travis-latest/version --output version.old
   - version=$(grep -Eo '[0-9]{1,16}' version.old)
-  - ((version++))
-  - echo $version>version
+  - echo $((version++))>version
   - git tag -f travis-latest
   - git remote add gh https://${TRAVIS_REPO_SLUG%/*}:${GITHUB_API_KEY}@github.com/${TRAVIS_REPO_SLUG}.git
   - git push -f gh travis-latest
