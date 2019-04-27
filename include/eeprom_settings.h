@@ -5,7 +5,7 @@ typedef struct {
     int initialized;                        // 0=no configuration, 1=valid configuration
     char SSID[31];                    // SSID of WiFi
     char password[31];                // Password of WiFi
-    int firmwareVer;
+    long firmwareVer;
     char version_info_url[120];
     char version_update_url[120];
     int debug;

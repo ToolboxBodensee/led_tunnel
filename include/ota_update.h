@@ -2,7 +2,7 @@
 #include <ESP8266httpUpdate.h>
 
 struct OTA_CONFIG {
-    const int version;
+    const long version;
     const char* check_url;
     const char* binary_url;
     const bool debug;
@@ -29,7 +29,7 @@ void FirmwareUpdate(OTA_CONFIG config, void (*onUpdateDoneCallback)(unsigned int
     {
         // Überprüfen der Firmwareversion des programmms aud dem Server
         HTTPClient http;
-        int firmwareVersionNew = 0;
+        long firmwareVersionNew = 0;
         http.begin(config.check_url);     // Webseite aufrufen
         int httpCode = http.GET();            // Antwort des Servers einlesen
         if (httpCode == HTTP_CODE_OK)         // Wenn Antwort OK

@@ -9,8 +9,8 @@
 #include "ota_update.h"
 #include "eeprom_settings.h"
 
-#define URL_Version_Info_Default "https://raw.githubusercontent.com/ToolboxBodensee/led_tunnel/master/bin/httpUpdate.txt"
-#define URL_Firmware_Default "https://github.com/ToolboxBodensee/led_tunnel/blob/master/bin/httpUpdate.bin?raw=true"
+#define URL_Version_Info_Default "https://github.com/ToolboxBodensee/led_tunnel/releases/download/travis-latest/version"
+#define URL_Firmware_Default "https://github.com/ToolboxBodensee/led_tunnel/releases/download/travis-latest/d1_mini.bin"
 
 // Which pin on the MCU is connected to the NeoPixels?
 //#define NODEMCU
@@ -35,7 +35,7 @@ Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ80
 eepromData_t cfg;
 HTTPClient http;
 
-void onFirmwareUpdateDone(unsigned int newVersion)
+void onFirmwareUpdateDone(unsigned long newVersion)
 {
     //update was done, save new version number
     cfg.firmwareVer = newVersion;
