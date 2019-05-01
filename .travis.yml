@@ -45,20 +45,7 @@ before_deploy:
   - git remote remove gh
 
 deploy:
-  provider: releases
-  api_key:
-    secure:
-      - "$GITHUB_API_KEY"
-  file:
-    - d1_mini.bin
-    - nodemcu.bin
-    - nodemcuv2.bin
-    - version
-  skip_cleanup: true
-  name: led tunnel OTA update release
-  body: Automatic led tunnel over the air update build of $TRAVIS_BRANCH ($TRAVIS_COMMIT) built by Travis CI on $(date +'%F %T %Z').
-  prerelease: false
-  overwrite: true
-  target_commitish: $TRAVIS_COMMIT
+  provider: script
+  script: .travis/deploy.sh
   on:
     branch: master
