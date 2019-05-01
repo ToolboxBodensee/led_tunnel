@@ -32,12 +32,9 @@ void doLedAnimation(uint32_t color1, uint32_t color2)
         pixels.show(); // This sends the updated pixel color to the hardware.
 
         delay(ANIMATION_DELAY); // Delay for a period of time (in milliseconds).
-
     }
 }
 
 void led_animation_simple_larson_scanner() {
-    doLedAnimation(pixels.Color(20,23,20), pixels.Color(150,0,0));
-    doLedAnimation(pixels.Color(255,5,50), pixels.Color(99,150,255));
-    doLedAnimation(pixels.Color(50,128,50), pixels.Color(253,254,255));
+    doLedAnimation(pixels.Color(255,0,0), pixels.Color(150,0,0));
 }
