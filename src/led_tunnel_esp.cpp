@@ -9,8 +9,8 @@
 #include "ota_update.h"
 #include "eeprom_settings.h"
 
-#define URL_Version_Info_Default "https://github.com/ToolboxBodensee/led_tunnel/releases/download/travis-latest/version"
-#define URL_Firmware_Default "https://github.com/ToolboxBodensee/led_tunnel/releases/download/travis-latest/d1_mini.bin"
+#define URL_Version_Info_Default "http://releases.tbbs.me/version"
+#define URL_Firmware_Default "http://releases.tbbs.me/d1_mini.bin"
 
 // Which pin on the MCU is connected to the NeoPixels?
 //#define NODEMCU
