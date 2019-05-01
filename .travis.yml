@@ -33,9 +33,6 @@ script:
   - platformio run -e nodemcuv2
 
 before_deploy:
-  - ln -s .pioenvs/d1_mini/firmware.bin d1_mini.bin
-  - ln -s .pioenvs/nodemcu/firmware.bin nodemcu.bin
-  - ln -s .pioenvs/nodemcuv2/firmware.bin nodemcuv2.bin
   - curl -LJ https://github.com/ToolboxBodensee/led_tunnel/releases/download/travis-latest/version --output version.old
   - version=$(grep -Eo '[0-9]{1,16}' version.old) || true
   - echo $((++version))>version
