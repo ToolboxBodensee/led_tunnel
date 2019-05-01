@@ -33,7 +33,10 @@ script:
   - platformio run -e nodemcuv2
 
 before_deploy:
-  - curl -LJ https://github.com/ToolboxBodensee/led_tunnel/releases/download/travis-latest/version --output version.old
+  - ln -s .pioenvs/d1_mini/firmware.bin d1_mini.bin
+  - ln -s .pioenvs/nodemcu/firmware.bin nodemcu.bin
+  - ln -s .pioenvs/nodemcuv2/firmware.bin nodemcuv2.bin
+  - curl -LJ http://releases.tbbs.me/version --output version.old
   - version=$(grep -Eo '[0-9]{1,16}' version.old) || true
   - echo $((++version))>version
   - git tag -f travis-latest
@@ -44,6 +47,20 @@ before_deploy:
 deploy:
   provider: script
   script: .travis/deploy.sh
+  provider: releases
+  api_key:
+    secure:
+      - "$GITHUB_API_KEY"
+  file:
+    - d1_mini.bin
+    - nodemcu.bin
+    - nodemcuv2.bin
+    - version
+  name: led tunnel OTA update release
+  body: Automatic led tunnel over the air update build of $TRAVIS_BRANCH ($TRAVIS_COMMIT) built by Travis CI on $(date +'%F %T %Z').
+  prerelease: false
+  overwrite: true
+  target_commitish: $TRAVIS_COMMIT
   skip_cleanup: true
   on:
     branch: master
