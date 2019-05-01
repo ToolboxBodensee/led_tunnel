@@ -9,8 +9,8 @@
 #include "ota_update.h"
 #include "eeprom_settings.h"
 
-#define URL_Version_Info_Default "https://raw.githubusercontent.com/ToolboxBodensee/led_tunnel/master/bin/httpUpdate.txt"
-#define URL_Firmware_Default "https://github.com/ToolboxBodensee/led_tunnel/blob/master/bin/httpUpdate.bin?raw=true"
+#define URL_Version_Info_Default "https://github.com/ToolboxBodensee/led_tunnel/releases/download/travis-latest/version"
+#define URL_Firmware_Default "https://github.com/ToolboxBodensee/led_tunnel/releases/download/travis-latest/d1_mini.bin"
 
 // Which pin on the MCU is connected to the NeoPixels?
 //#define NODEMCU
@@ -51,7 +51,7 @@ void setup()
         cfg.initialized = 1;
         strncpy(cfg.SSID, "<ssid>", sizeof("<ssid>"));
         strncpy(cfg.password, "<password>", sizeof("<password>"));
-        cfg.firmwareVer = 9;
+        cfg.firmwareVer = 0;
         strncpy(cfg.version_info_url, URL_Version_Info_Default, sizeof(URL_Version_Info_Default));
         strncpy(cfg.version_update_url, URL_Firmware_Default, sizeof(URL_Firmware_Default));
         cfg.debug = 1;
