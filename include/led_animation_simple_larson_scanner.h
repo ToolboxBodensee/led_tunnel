@@ -27,7 +27,7 @@ void doLedAnimation(uint32_t color1, uint32_t color2)
             pixels.setPixelColor(i+w, color2); // set pixel to color2.
         }
         if (i!=0)
-        pixels.setPixelColor(i+LARSON_WIDTH+50-100+50, color1); // set pixel to color1.
+        pixels.setPixelColor(i+LARSON_WIDTH-20, color1); // set pixel to color1.
 
         pixels.show(); // This sends the updated pixel color to the hardware.
 
