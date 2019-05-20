@@ -10,9 +10,9 @@ void doLedAnimation(uint32_t color1, uint32_t color2)
 
         // pixels.Color takes RGB values, from 0,0,0 up to 255,255,255
         if (i!=0)
-        pixels.setPixelColor(i-1, color2); // set pixel to color2.
+        pixels.setPixelColor(i-1, color1); // set pixel to color1.
         for (int w=0;w<LARSON_WIDTH;++w){
-            pixels.setPixelColor(i+w, color1); // set pixel to color1.
+            pixels.setPixelColor(i+w, color2); // set pixel to color2.
         }
 
         pixels.show(); // This sends the updated pixel color to the hardware.
@@ -27,7 +27,7 @@ void doLedAnimation(uint32_t color1, uint32_t color2)
             pixels.setPixelColor(i+w, color2); // set pixel to color2.
         }
         if (i!=0)
-        pixels.setPixelColor(i+LARSON_WIDTH-20, color1); // set pixel to color1.
+        pixels.setPixelColor(i+LARSON_WIDTH, color1); // set pixel to color1.
 
         pixels.show(); // This sends the updated pixel color to the hardware.
 
@@ -36,5 +36,7 @@ void doLedAnimation(uint32_t color1, uint32_t color2)
 }
 
 void led_animation_simple_larson_scanner() {
-    doLedAnimation(pixels.Color(255,0,0), pixels.Color(150,0,0));
+    doLedAnimation(pixels.Color(20,50,20), pixels.Color(150,0,0));
+    doLedAnimation(pixels.Color(0,50,50), pixels.Color(0,150,0));
+    doLedAnimation(pixels.Color(50,0,50), pixels.Color(0,0,150));
 }
