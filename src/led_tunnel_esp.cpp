@@ -40,6 +40,7 @@
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 
 #include "led_animation_simple_larson_scanner.h"
+#include "led_animation_rainbow.h"
 
 //This is running on a nodeMCU V1.0 ESP12E or wemos d1 mini
 
@@ -112,4 +113,5 @@ void setup()
 void loop()
 {
     led_animation_simple_larson_scanner();
+    led_animation_rainbow();
 }
