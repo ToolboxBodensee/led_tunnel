@@ -2,7 +2,7 @@
 
 #define NUM_RAINBOW_CYCLES 5
 // animation delay config
-#define ANIMATION_DELAY 10
+#define ANIMATION_RAINBOW_DELAY 10
 
 uint32_t colorLookupRainbow(int pixel_pos)
 {
@@ -67,7 +67,7 @@ void doRainbow()
         }
 
         pixels.show(); // This sends the updated pixel color to the hardware.
-        delay(ANIMATION_DELAY); // Delay for a period of time (in milliseconds).
+        delay(ANIMATION_RAINBOW_DELAY); // Delay for a period of time (in milliseconds).
     }
 }
 
