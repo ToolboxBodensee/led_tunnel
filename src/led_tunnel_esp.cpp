@@ -22,6 +22,10 @@
 #define PIN 5
 #endif
 
+//WiFi settings
+#define WIFI_SSID "<ssid>"
+#define WIFI_PASS "<password>"
+
 // How many NeoPixels are attached to the Arduino?
 #define NUMPIXELS 150
 
@@ -88,8 +92,8 @@ void setup()
     {
         //not initialized
         cfg.initialized = 1;
-        strncpy(cfg.SSID, "<ssid>", sizeof("<ssid>"));
-        strncpy(cfg.password, "<password>", sizeof("<password>"));
+        strncpy(cfg.SSID, WIFI_SSID, sizeof(WIFI_SSID));
+        strncpy(cfg.password, WIFI_PASS, sizeof(WIFI_PASS));
         cfg.firmwareVer = 0;
         strncpy(cfg.version_info_url, URL_Version_Info_Default, sizeof(URL_Version_Info_Default));
         strncpy(cfg.version_update_url, URL_Firmware_Default, sizeof(URL_Firmware_Default));
