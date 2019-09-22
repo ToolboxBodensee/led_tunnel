@@ -25,6 +25,8 @@
 //WiFi settings
 #define WIFI_SSID "<ssid>"
 #define WIFI_PASS "<password>"
+#define WIFI_TIMEOUT 10000
+#define WIFI_DELAY 500
 
 // How many NeoPixels are attached to the Arduino?
 #define NUMPIXELS 150
@@ -108,11 +110,13 @@ void setup()
     WiFi.hostname("LedTunnel");
     WiFi.mode(WIFI_STA);
     WiFi.begin(cfg.SSID, cfg.password);
-    while (WiFi.status() != WL_CONNECTED)
+    int timeout = 0;
+    while (WiFi.status() != WL_CONNECTED && timeout <= WIFI_TIMEOUT)
     {
-        delay(500);
+        timeout += WIFI_DELAY;
+        delay(WIFI_DELAY);
         Serial.print("O");
-    }                                     // Verbunden
+    }
     Serial.println("");
     Serial.println("Verbunden");
     Serial.println("IP address: ");
