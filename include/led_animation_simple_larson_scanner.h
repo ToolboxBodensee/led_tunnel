@@ -1,3 +1,5 @@
+#include "arduino_ota_update.h"
+
 //scanner width
 #define LARSON_WIDTH 5
 // animation delay config
@@ -37,6 +39,9 @@ void doLedAnimation(uint32_t color1, uint32_t color2)
 
 void led_animation_simple_larson_scanner() {
     doLedAnimation(pixels.Color(20,50,20), pixels.Color(150,0,0));
+    ArduinoOTA.handle();
     doLedAnimation(pixels.Color(0,50,50), pixels.Color(0,150,0));
+    ArduinoOTA.handle();
     doLedAnimation(pixels.Color(50,0,50), pixels.Color(0,0,150));
+    ArduinoOTA.handle();
 }
