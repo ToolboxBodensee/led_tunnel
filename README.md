@@ -1,4 +1,8 @@
-# LED tunnel [![Build Status](https://travis-ci.com/ToolboxBodensee/led_tunnel.svg?branch=master)](https://travis-ci.com/ToolboxBodensee/led_tunnel)
+# LED tunnel
+
+**Entwicklung nur auf [GitLab](https://gitlab.com/ToolboxBodensee/die-erleuchteten/led_tunnel). Auf GitHub befindet sich lediglich ein Mirror**
+
+[![Build Status](https://travis-ci.com/ToolboxBodensee/led_tunnel.svg?branch=master)](https://travis-ci.com/ToolboxBodensee/led_tunnel)
 ## About
 This is for the hexagonal 2 meter tunnel for drones which has a 5 meter neopixel led stripe in a spiral attached to the inner surface. The code is running on a ESP8266 based board.
 This project uses platform io ![Logo](https://platformio.org/images/platformio-logo-xs.fd6e881d.png) to build it which makes it super simple to use.
