@@ -28,9 +28,11 @@ void FirmwareUpdate(OTA_CONFIG config, void (*onUpdateDoneCallback)(unsigned int
     else
     {
         // Überprüfen der Firmwareversion des programmms aud dem Server
+        BearSSL::WiFiClientSecure client = BearSSL::WiFiClientSecure();
+        client.setInsecure();
         HTTPClient http;
         int firmwareVersionNew = 0;
-        http.begin(config.check_url);     // Webseite aufrufen
+        http.begin(client, config.check_url);     // Webseite aufrufen
         int httpCode = http.GET();            // Antwort des Servers einlesen
         if (httpCode == HTTP_CODE_OK)         // Wenn Antwort OK
         {
@@ -47,7 +49,7 @@ void FirmwareUpdate(OTA_CONFIG config, void (*onUpdateDoneCallback)(unsigned int
                 Serial.println("Starte Download");
             }
             ESPhttpUpdate.rebootOnUpdate(false);// reboot abschalten, wir wollen erst Meldungen ausgeben
-            t_httpUpdate_return ret = ESPhttpUpdate.update(config.binary_url);
+            t_httpUpdate_return ret = ESPhttpUpdate.update(client, config.binary_url);
             switch (ret)
             {
                 case HTTP_UPDATE_OK:

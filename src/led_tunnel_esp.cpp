@@ -11,11 +11,19 @@
 #include "ota_update.h"
 #include "eeprom_settings.h"
 
-#define URL_Version_Info_Default "http://releases.tbbs.me/version"
-#define URL_Firmware_Default "http://releases.tbbs.me/d1_mini.bin"
+#define URL_Version_Info_Default "https://github.com/ToolboxBodensee/led_tunnel/releases/latest/download/version"
+
+#ifdef NODEMCU2
+#define URL_Firmware_Default "https://github.com/ToolboxBodensee/led_tunnel/releases/latest/download/nodemcuv2.bin"
+#else /* not NODEMCU2 */
+#ifdef NODEMCU
+#define URL_Firmware_Default "https://github.com/ToolboxBodensee/led_tunnel/releases/latest/download/nodemcu.bin"
+#else /* not NODEMCU and not NODEMCU2 */
+#define URL_Firmware_Default "https://github.com/ToolboxBodensee/led_tunnel/releases/latest/download/d1_mini.bin"
+#endif /* NODEMCU */
+#endif /* NODEMCU2 */
 
 // Which pin on the MCU is connected to the NeoPixels?
-//#define NODEMCU
 #ifndef NODEMCU
 #define PIN D5
 #else
